@@ -1,0 +1,12 @@
+# Virtual environment
+env/
+
+# Credentials
+credentials/
+
+# Python junk
+src/__pycache__
+src/*.pyc
+
+# OS junk
+*.DS_Store
