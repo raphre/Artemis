@@ -34,7 +34,7 @@ class Course:
 class WebDriver:
     def __init__(self, headless=True):
         options = Options()
-        options.headless = True
+        options.headless = headless
         self.driver = Chrome(chrome_options=options)
         self.in_course = False
         self.driver.implicitly_wait(5)
