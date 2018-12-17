@@ -3,6 +3,7 @@ from KeyChain import KeyChain
 import imaplib
 from WebDriver import WebDriver, Course
 from pathlib import PurePath
+from EmailClient import EmailClient
 
 class User:
     def __init__(self, password):
@@ -13,7 +14,7 @@ class User:
         self.logged_in_to_email = False
         self.logged_in_to_bb = False
         self.web_driver = None
-        self.mail = None
+        self.bb_username = None
         self.key_chain = None
         self.password = password
 
@@ -36,6 +37,7 @@ class User:
         """
         self.path_to_credentials = path_to_credentials
         self.key_chain = KeyChain(self.path_to_credentials, self.password)
+        self.mail = EmailClient('raphre')
 
     def login_to(self, service):
         """
@@ -67,6 +69,14 @@ class User:
             self.login_to('bb')
         self.web_driver.enter_course(course)
         self.web_driver.create_announcement(subject, announcement)
+        print('Posted an announcement!')
+
+    def process_requests(self):
+        if not self.logged_in_to_email:
+            self.login_to('mail')
+        batch = self.mail.get_new_messages()
+        for subject, message in batch:
+            self.create_announcement(subject, message, 'MAT 105.02')
 
     def logout(self):
         if self.logged_in_to_bb:

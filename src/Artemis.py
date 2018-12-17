@@ -19,7 +19,6 @@ class Artemis:
             user.load_from(path)
             self.users.append(user)
 
-    def test(self):
-        print('Testing.')
-        self.users[0].create_announcement('test subject', 'test body','MAT 105.02')
-        self.users[0].logout()
+    def run(self):
+        print('Cheecking for requests...')
+        self.users[0].process_requests()
