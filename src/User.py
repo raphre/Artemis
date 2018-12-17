@@ -22,7 +22,6 @@ class User:
         Records the user with the given credentials as a new user.
         """
         self.path_to_credentials = path_to_credentials
-        self.password = password
         bb_name = bb_creds['username']
         bb_pass = bb_creds['password']
         mail_name = mail_creds['username']
