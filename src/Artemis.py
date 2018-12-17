@@ -10,7 +10,8 @@ class Artemis:
         self.credentials_path = root_path / 'credentials'
         if not os.path.isdir(self.credentials_path.as_posix()):
             initial_setup(self.credentials_path, password)
-        user_dirs = os.listdir(self.credentials_path.as_posix())[1:]
+        user_dirs = os.listdir(self.credentials_path.as_posix())
+        user_dirs = list(filter(lambda dir: dir.isdigit(), user_dirs))
         user_paths = [root_path / 'credentials' / PurePath(path) for path in user_dirs]
         self.users = []
         for path in user_paths:
