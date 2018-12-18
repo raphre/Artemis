@@ -30,10 +30,10 @@ class EmailClient:
 
     def _fetch_raw_message(self, code):
         data = self.client.fetch(code, MAGIC_CODE)
-        return data[1]
+        return data
 
     def _process_raw_message(self, raw_message):
-        msg = email.message_from_bytes(raw_message[0][1])
+        msg = email.message_from_string(raw_message[1])
         subject = msg['Subject']
         if msg.is_multipart():
             body = msg.get_payload()[0].get_payload()
@@ -48,6 +48,7 @@ class EmailClient:
         for code in from_unseen_codes:
             raw_message = self._fetch_raw_message(code)
             message = self._process_raw_message(raw_message)
+            print(message)
             messages.append(message)
         return messages
 

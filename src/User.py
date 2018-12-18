@@ -37,7 +37,7 @@ class User:
         """
         self.path_to_credentials = path_to_credentials
         self.key_chain = KeyChain(self.path_to_credentials, self.password)
-        self.mail = EmailClient('raphre')
+        self.mail_client = EmailClient('raphre')
 
     def login_to(self, service):
         """
@@ -48,9 +48,8 @@ class User:
                 print('User is already logged in to email.')
                 return
             else:
-                self.mail = imaplib.IMAP4_SSL(SMTP_SERVER)
                 username, password = self.key_chain.get_credentials_for('mail')
-                self.mail.login(username, password)
+                self.mail_client.login(username, password)
                 self.logged_in_to_email = True
                 return
         if (service == 'bb'):
@@ -74,7 +73,7 @@ class User:
     def process_requests(self):
         if not self.logged_in_to_email:
             self.login_to('mail')
-        batch = self.mail.get_new_messages()
+        batch = self.mail_client.get_messages()
         for subject, message in batch:
             self.create_announcement(subject, message, 'MAT 105.02')
 
